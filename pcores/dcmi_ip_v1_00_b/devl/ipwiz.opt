@@ -1,0 +1,11 @@
+-batch 
+-create dcmi_ip 
+-ver 1.00.b 
+-dir "/home/deokhwan/Work/FPGA/ppc_dcmi_test" 
+-lang vhdl 
+-bus plbv46 ms 
+-burst m 32 
+-rst 
+-reg 4 
+-xps 
+-driver 

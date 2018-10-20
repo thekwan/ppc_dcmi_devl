@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="./isim.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="frame_gen_tb" />
+            <top_module name="glbl" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="vcomponents" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="22" />
+   <wvobject fp_name="/frame_gen_tb/dut/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/vsync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync</obj_property>
+      <obj_property name="ObjectShortName">vsync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href</obj_property>
+      <obj_property name="ObjectShortName">href</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/vsync_line_cnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_line_cnt[0:8]</obj_property>
+      <obj_property name="ObjectShortName">vsync_line_cnt[0:8]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/vsync_line_cnt_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_line_cnt_en</obj_property>
+      <obj_property name="ObjectShortName">vsync_line_cnt_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/vsync_line_cnt_inc" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_line_cnt_inc</obj_property>
+      <obj_property name="ObjectShortName">vsync_line_cnt_inc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/vsync_line_cnt_clr" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_line_cnt_clr</obj_property>
+      <obj_property name="ObjectShortName">vsync_line_cnt_clr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href_pixel_cnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">href_pixel_cnt[0:8]</obj_property>
+      <obj_property name="ObjectShortName">href_pixel_cnt[0:8]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href_pixel_cnt_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href_pixel_cnt_en</obj_property>
+      <obj_property name="ObjectShortName">href_pixel_cnt_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href_pixel_cnt_clr" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href_pixel_cnt_clr</obj_property>
+      <obj_property name="ObjectShortName">href_pixel_cnt_clr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href_oper_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href_oper_en</obj_property>
+      <obj_property name="ObjectShortName">href_oper_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/vsync_sm_state" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_sm_state</obj_property>
+      <obj_property name="ObjectShortName">vsync_sm_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href_sm_state" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">href_sm_state</obj_property>
+      <obj_property name="ObjectShortName">href_sm_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/cnt_n" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">cnt_n</obj_property>
+      <obj_property name="ObjectShortName">cnt_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/vsync_high_period" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_high_period</obj_property>
+      <obj_property name="ObjectShortName">vsync_high_period</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/vsync_low_period" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_low_period</obj_property>
+      <obj_property name="ObjectShortName">vsync_low_period</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href_high_period" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">href_high_period</obj_property>
+      <obj_property name="ObjectShortName">href_high_period</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href_low_period" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">href_low_period</obj_property>
+      <obj_property name="ObjectShortName">href_low_period</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/pixel_cnt_period" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_cnt_period</obj_property>
+      <obj_property name="ObjectShortName">pixel_cnt_period</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href_start_cnt" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">href_start_cnt</obj_property>
+      <obj_property name="ObjectShortName">href_start_cnt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut/href_stop_cnt" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">href_stop_cnt</obj_property>
+      <obj_property name="ObjectShortName">href_stop_cnt</obj_property>
+   </wvobject>
+</wave_config>
