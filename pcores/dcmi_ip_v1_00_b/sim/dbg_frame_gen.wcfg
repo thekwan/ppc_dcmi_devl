@@ -16,6 +16,9 @@
       </db_ref>
    </db_ref_list>
    <WVObjectSize size="22" />
+   <wave_markers>
+      <marker time="737175000000" label="" />
+   </wave_markers>
    <wvobject fp_name="/frame_gen_tb/dut/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -33,8 +36,8 @@
       <obj_property name="ObjectShortName">href</obj_property>
    </wvobject>
    <wvobject fp_name="/frame_gen_tb/dut/vsync_line_cnt" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vsync_line_cnt[0:8]</obj_property>
-      <obj_property name="ObjectShortName">vsync_line_cnt[0:8]</obj_property>
+      <obj_property name="ElementShortName">vsync_line_cnt[0:9]</obj_property>
+      <obj_property name="ObjectShortName">vsync_line_cnt[0:9]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/frame_gen_tb/dut/vsync_line_cnt_en" type="logic" db_ref_id="1">
@@ -50,8 +53,8 @@
       <obj_property name="ObjectShortName">vsync_line_cnt_clr</obj_property>
    </wvobject>
    <wvobject fp_name="/frame_gen_tb/dut/href_pixel_cnt" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">href_pixel_cnt[0:8]</obj_property>
-      <obj_property name="ObjectShortName">href_pixel_cnt[0:8]</obj_property>
+      <obj_property name="ElementShortName">href_pixel_cnt[0:9]</obj_property>
+      <obj_property name="ObjectShortName">href_pixel_cnt[0:9]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/frame_gen_tb/dut/href_pixel_cnt_en" type="logic" db_ref_id="1">

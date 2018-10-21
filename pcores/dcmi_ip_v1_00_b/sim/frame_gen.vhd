@@ -30,7 +30,7 @@ architecture IMP of frame_gen is
   signal href_oper_en                    : std_logic;
   
   constant VSYNC_HIGH_PERIOD : integer := 3;
-  constant VSYNC_LOW_PERIOD  : integer := 507;
+  constant VSYNC_LOW_PERIOD  : integer := 510;
   constant HREF_HIGH_PERIOD  : integer := 640;
   constant HREF_LOW_PERIOD   : integer := 144;
   constant PIXEL_CNT_PERIOD  : integer := HREF_HIGH_PERIOD + HREF_LOW_PERIOD;
@@ -99,7 +99,8 @@ begin
 			end if;
 
 		  when HREF_LOW  =>
-		    if to_integer(unsigned(href_pixel_cnt)) = HREF_LOW_PERIOD-1 then
+		    --if to_integer(unsigned(href_pixel_cnt)) = HREF_LOW_PERIOD-1 then
+		    if to_integer(unsigned(href_pixel_cnt)) = PIXEL_CNT_PERIOD-1 then
 			  if href_oper_en = '1' then
 			  	href_sm_state <= HREF_HIGH;
 			  else
@@ -163,7 +164,7 @@ begin
 	      href_pixel_cnt_clr <= '0';
 		end if;
 		if to_integer(unsigned(vsync_line_cnt)) >= HREF_START_CNT and
-		   to_integer(unsigned(vsync_line_cnt)) <= HREF_STOP_CNT  then
+		   to_integer(unsigned(vsync_line_cnt)) <  HREF_STOP_CNT-1 then
 			href_oper_en     <= '1';
 		else
 			href_oper_en     <= '0';
