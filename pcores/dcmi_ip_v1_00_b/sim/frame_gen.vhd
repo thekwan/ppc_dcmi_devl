@@ -8,7 +8,10 @@ entity frame_gen is
   port
   (
     clk                 : in  std_logic;
+    clkx2               : in  std_logic;
     reset               : in  std_logic;
+    pclk                : out std_logic;
+    pdata               : out std_logic_vector(0 to 7);
     VSYNC               : out std_logic;
     HREF                : out std_logic
   );
@@ -28,6 +31,8 @@ architecture IMP of frame_gen is
   signal href_pixel_cnt_en               : std_logic;
   signal href_pixel_cnt_clr              : std_logic;
   signal href_oper_en                    : std_logic;
+
+  signal pdata_cnt                       : std_logic_vector(0 to 7);
   
   constant VSYNC_HIGH_PERIOD : integer := 3;
   constant VSYNC_LOW_PERIOD  : integer := 510;
@@ -163,8 +168,9 @@ begin
 	      href_pixel_cnt_en  <= '1';
 	      href_pixel_cnt_clr <= '0';
 		end if;
-		if to_integer(unsigned(vsync_line_cnt)) >= HREF_START_CNT and
-		   to_integer(unsigned(vsync_line_cnt)) <  HREF_STOP_CNT-1 then
+		if to_integer(unsigned(vsync_line_cnt)) >= HREF_START_CNT-1 and
+		   to_integer(unsigned(vsync_line_cnt)) <  HREF_STOP_CNT-1 and
+		   to_integer(unsigned(href_pixel_cnt)) = PIXEL_CNT_PERIOD-1 then
 			href_oper_en     <= '1';
 		else
 			href_oper_en     <= '0';
@@ -231,5 +237,23 @@ begin
   end process HREF_CNT_PROC;
 
 
+  PIXEL_DATA_PROC : process( clkx2 ) is
+    variable cnt: integer;
+  begin
+    if clkx2'event and clkx2 = '1' then
+	  if reset = '1' then
+	    pdata_cnt <= (others => '0');
+	  elsif href_oper_en = '1' then
+	    pdata_cnt <= (others => '0');
+	  else
+	    cnt := to_integer(unsigned(pdata_cnt));
+        cnt := cnt + 1;
+		pdata_cnt <= std_logic_vector(to_unsigned(cnt, 8));
+	  end if;
+	end if;
+  end process PIXEL_DATA_PROC;
+
+  pdata <= pdata_cnt;
+  pclk  <= clkx2;
 
 end IMP;
