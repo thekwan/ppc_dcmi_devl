@@ -1,3 +1,4 @@
 vhdl work "frame_gen.vhd"
+vhdl work "frame_det.vhd"
 vhdl work "frame_gen_tb.vhd"
 verilog work "/opt/Xilinx/14.3/ISE_DS/ISE/verilog/src/glbl.v" -i "/opt/Xilinx/14.3/ISE_DS/ISE/verilog/src/"

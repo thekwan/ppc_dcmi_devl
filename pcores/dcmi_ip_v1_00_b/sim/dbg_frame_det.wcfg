@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="./isim.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="frame_gen_tb" />
+            <top_module name="glbl" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="vcomponents" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="15" />
+   <wvobject fp_name="/frame_gen_tb/dut_det/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pclk</obj_property>
+      <obj_property name="ObjectShortName">pclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pdata" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pdata[0:7]</obj_property>
+      <obj_property name="ObjectShortName">pdata[0:7]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/vsync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync</obj_property>
+      <obj_property name="ObjectShortName">vsync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/href" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href</obj_property>
+      <obj_property name="ObjectShortName">href</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data[0:7]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data[0:7]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_cnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_cnt[0:9]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_cnt[0:9]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_catch" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_catch</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_catch</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pclk_fall_det" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pclk_fall_det</obj_property>
+      <obj_property name="ObjectShortName">pclk_fall_det</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/vsync_fall_det" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_fall_det</obj_property>
+      <obj_property name="ObjectShortName">vsync_fall_det</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/href_fall_det" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href_fall_det</obj_property>
+      <obj_property name="ObjectShortName">href_fall_det</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pclk_d1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pclk_d1</obj_property>
+      <obj_property name="ObjectShortName">pclk_d1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/vsync_d1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_d1</obj_property>
+      <obj_property name="ObjectShortName">vsync_d1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/href_d1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href_d1</obj_property>
+      <obj_property name="ObjectShortName">href_d1</obj_property>
+   </wvobject>
+</wave_config>

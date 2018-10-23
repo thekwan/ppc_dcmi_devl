@@ -23,12 +23,26 @@ architecture IMP of frame_gen_tb is
     );
   end component;
 
+  component frame_det is
+    port(
+      clk     : in std_logic;
+      reset   : in std_logic;
+      pclk    : in  std_logic;
+      pdata   : in  std_logic_vector(0 to 7);
+      VSYNC   : in  std_logic;
+      HREF    : in  std_logic
+    );
+  end component;
+
+
   constant clk_pin_PERIOD    : time := 10000.00000 ps;
   constant clkx2_pin_PERIOD  : time :=  5000.00000 ps;
+  constant clkxd_pin_PERIOD  : time :=  1300.00000 ps;
   constant reset_pin_LENGTH  : time := 205000 ps;
 
   signal clk     : std_logic;
   signal clkx2   : std_logic;
+  signal clk_det : std_logic;
   signal pclk    : std_logic;
   signal pdata   : std_logic_vector(0 to 7);
   signal reset   : std_logic;
@@ -37,7 +51,7 @@ architecture IMP of frame_gen_tb is
 
 begin
 
-  dut : frame_gen
+  dut_gen : frame_gen
   port map (
     clk    =>  clk,
     clkx2  =>  clkx2,
@@ -47,6 +61,17 @@ begin
 	VSYNC  =>  VSYNC,
 	HREF   =>  HREF  
   );
+
+  dut_det : frame_det
+  port map (
+    clk    =>  clk_det,
+	reset  =>  reset,
+    pclk   =>  pclk ,
+    pdata  =>  pdata,
+	VSYNC  =>  VSYNC,
+	HREF   =>  HREF  
+  );
+
 
   process
   begin
@@ -66,13 +91,22 @@ begin
     end loop;
   end process;
 
+  process
+  begin
+    clk_det <= '1';
+    loop
+      wait for (clkxd_pin_PERIOD/2);
+      clk_det <= not clk_det;
+    end loop;
+  end process;
+
 
   process
   begin
     reset <= '0';
 	wait for (reset_pin_LENGTH);
 	reset <= '1';
-	wait for (clk_pin_PERIOD);
+	wait for (clkxd_pin_PERIOD);
 	reset <= '0';
 	wait;
   end process;
