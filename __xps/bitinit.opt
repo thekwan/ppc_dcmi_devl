@@ -1,1 +1,1 @@
- -p xc5vfx70tff1136-1 -pe ppc440_0 SDK/SDK_Export/bootloader/Release/bootloader.elf
+ -p xc5vfx70tff1136-1 -pe ppc440_0 bootloops/ppc440_0.elf

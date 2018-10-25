@@ -98,12 +98,12 @@ init_platform()
 	 * along with this example source files for compilation.
 	 */
 	/* ps7_init();*/
-    enable_caches();
+    //enable_caches();
     init_uart();
 }
 
 void
 cleanup_platform()
 {
-    disable_caches();
+    //disable_caches();
 }

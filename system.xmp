@@ -25,5 +25,5 @@ EnableParTimingError: 1
 ShowLicenseDialog: 1
 BInfo: 
 Processor: ppc440_0
-ElfImp: SDK/SDK_Export/master_burst_example/Debug/master_burst_example.elf
+ElfImp: 
 ElfSim: SDK/SDK_Export/master_burst_example/Debug/master_burst_example.elf
