@@ -30,12 +30,23 @@ int main()
 {
     init_platform();
 
+
+	XIo_Out32(0x00123450 , 0x01234567);
+	XIo_Out32(0x00123454 , 0x11223344);
+	XIo_Out32(0x00123458 , 0x99887766);
+	XIo_Out32(0x0012345C , 0x98765432);
+
     //print("Hello World\n\r");
 	dcmi_ip_reset();
-	dcmi_ip_set_read_mode();
-	dcmi_ip_set_addr( 0x00123456 );
-	dcmi_ip_set_byte_en_reg( 0xf0f0 );
-	dcmi_ip_set_length( 0x00ff );
+	//dcmi_ip_set_read_mode();
+	//dcmi_ip_set_write_single_mode();
+	dcmi_ip_set_read_burst_mode();
+	dcmi_ip_set_addr( 0x00123450 );
+	dcmi_ip_set_byte_en_reg( 0x000f );
+	dcmi_ip_set_length( 0x0010 );
+	dcmi_ip_go_start();
+
+	dcmi_ip_set_write_burst_mode();
 	dcmi_ip_go_start();
 
     cleanup_platform();
