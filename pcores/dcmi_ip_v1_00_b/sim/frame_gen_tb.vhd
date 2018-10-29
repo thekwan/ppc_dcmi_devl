@@ -30,7 +30,13 @@ architecture IMP of frame_gen_tb is
       pclk    : in  std_logic;
       pdata   : in  std_logic_vector(0 to 7);
       VSYNC   : in  std_logic;
-      HREF    : in  std_logic
+      HREF    : in  std_logic;
+      base_addr        : in  std_logic_vector(0 to 31);
+      pixel_data_r     : out std_logic_vector(0 to 4);
+      pixel_data_g     : out std_logic_vector(0 to 5);
+      pixel_data_b     : out std_logic_vector(0 to 4);
+      pixel_data_addr  : out std_logic_vector(0 to 31);
+      pixel_data_en    : out std_logic
     );
   end component;
 
@@ -49,6 +55,13 @@ architecture IMP of frame_gen_tb is
   signal VSYNC   : std_logic;
   signal HREF    : std_logic;
 
+  signal base_addr       : std_logic_vector(0 to 31);
+  signal pixel_data_r    : std_logic_vector(0 to 4);
+  signal pixel_data_g    : std_logic_vector(0 to 5);
+  signal pixel_data_b    : std_logic_vector(0 to 4);
+  signal pixel_data_addr : std_logic_vector(0 to 31);
+  signal pixel_data_en   : std_logic;
+
 begin
 
   dut_gen : frame_gen
@@ -62,6 +75,8 @@ begin
 	HREF   =>  HREF  
   );
 
+  base_addr <= X"00FF0140";
+
   dut_det : frame_det
   port map (
     clk    =>  clk_det,
@@ -69,7 +84,13 @@ begin
     pclk   =>  pclk ,
     pdata  =>  pdata,
 	VSYNC  =>  VSYNC,
-	HREF   =>  HREF  
+	HREF   =>  HREF,
+	base_addr    => base_addr,
+	pixel_data_r => pixel_data_r,
+	pixel_data_g => pixel_data_g,
+	pixel_data_b => pixel_data_b,
+	pixel_data_addr => pixel_data_addr,
+	pixel_data_en   => pixel_data_en
   );
 
 
