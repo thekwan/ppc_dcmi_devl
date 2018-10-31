@@ -177,8 +177,10 @@ entity user_logic is
     IP2Bus_MstWr_src_rdy_n         : out std_logic;
     IP2Bus_MstWr_src_dsc_n         : out std_logic;
     Bus2IP_MstWr_dst_rdy_n         : in  std_logic;
-    Bus2IP_MstWr_dst_dsc_n         : in  std_logic
+    Bus2IP_MstWr_dst_dsc_n         : in  std_logic;
     -- DO NOT EDIT ABOVE THIS LINE ---------------------
+	VSYNC                          : in  std_logic;
+	HREF                           : in  std_logic
   );
 
   attribute MAX_FANOUT : string;
