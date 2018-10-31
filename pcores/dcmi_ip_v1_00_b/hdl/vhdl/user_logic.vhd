@@ -58,6 +58,9 @@ library proc_common_v3_00_a;
 use proc_common_v3_00_a.proc_common_pkg.all;
 use proc_common_v3_00_a.srl_fifo_f;
 
+library dcmi_ip_v1_00_b;
+use dcmi_ip_v1_00_b.frame_det;
+
 -- DO NOT EDIT ABOVE THIS LINE --------------------
 
 --USER libraries added here
@@ -263,6 +266,18 @@ architecture IMP of user_logic is
   signal mst_fifo_valid_write_xfer      : std_logic;
   signal mst_fifo_valid_read_xfer       : std_logic;
 
+  -- frame detector signal
+  signal pclk                           : std_logic;
+  signal pdata                          : std_logic;
+  signal VSYNC                          : std_logic;
+  signal HREF                           : std_logic;
+  signal base_addr                      : std_logic_vector(0 to 31);
+  signal pixel_data_r                   : std_logic_vector(0 to 4);
+  signal pixel_data_g                   : std_logic_vector(0 to 5);
+  signal pixel_data_b                   : std_logic_vector(0 to 4);
+  signal pixel_data_addr                : std_logic_vector(0 to 31);
+  signal pixel_data_en                  : std_logic;
+	
 begin
 
   --USER logic implementation added here
@@ -880,5 +895,27 @@ begin
   IP2Bus_WrAck <= slv_write_ack or mst_write_ack;
   IP2Bus_RdAck <= slv_read_ack or mst_read_ack;
   IP2Bus_Error <= '0';
+
+
+  ------------------------------------------
+  -- Digital Camera Frame Detector
+  ------------------------------------------
+
+  FRAME_DETECTOR : entity dcmi_ip_v1_00_b.frame_det
+    port map
+	(
+      clk               => clk             ,
+      reset             => reset           ,
+      pclk              => pclk            ,
+      pdata             => pdata           ,
+      VSYNC             => VSYNC           ,
+      HREF              => HREF            ,
+      base_addr         => base_addr       ,
+      pixel_data_r      => pixel_data_r    ,
+      pixel_data_g      => pixel_data_g    ,
+      pixel_data_b      => pixel_data_b    ,
+      pixel_data_addr   => pixel_data_addr ,
+      pixel_data_en     => pixel_data_en
+	);
 
 end IMP;
