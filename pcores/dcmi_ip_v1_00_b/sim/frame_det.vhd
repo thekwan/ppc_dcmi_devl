@@ -42,10 +42,15 @@ architecture IMP of frame_det is
   signal pclk_fall_det                   : std_logic;
   signal vsync_fall_det                  : std_logic;
   signal href_fall_det                   : std_logic;
+  signal href_fall_det_d1                : std_logic;
   signal pclk_d1                         : std_logic;
   signal pclk_d2                         : std_logic;
   signal VSYNC_d1                        : std_logic;
+  signal VSYNC_d2                        : std_logic;
   signal HREF_d1                         : std_logic;
+  signal HREF_d2                         : std_logic;
+  signal pdata_d1                        : std_logic_vector(0 to 7);
+  signal pixel_data_en_wire              : std_logic;
   
 --constant RESOLUTION_V      : integer := 480;
 
@@ -59,8 +64,8 @@ architecture IMP of frame_det is
 begin
 
   -- VSYNC, HREF falling edge detector
-  vsync_fall_det <= (not VSYNC) and VSYNC_d1;
-  href_fall_det  <= (not HREF ) and HREF_d1;
+  vsync_fall_det <= (not VSYNC_d1) and VSYNC_d2;
+  href_fall_det  <= (not HREF_d1 ) and HREF_d2;
   pclk_fall_det  <= (not pclk_d2) and pclk_d1;
 
   DELAY_LOGIC : process( clk ) is
@@ -68,14 +73,22 @@ begin
     if clk'event and clk = '1' then
 	  if reset = '1' then
 	    VSYNC_d1 <= '0';
+	    VSYNC_d2 <= '0';
 	    HREF_d1  <= '0';
+	    HREF_d2  <= '0';
 		pclk_d1  <= '0';
 		pclk_d2  <= '0';
+		pdata_d1 <= (others => '0');
+		href_fall_det_d1 <= '0';
 	  else
 	    VSYNC_d1 <= VSYNC;
+	    VSYNC_d2 <= VSYNC_d1;
 	    HREF_d1  <= HREF;
+	    HREF_d2  <= HREF_d1;
 		pclk_d1  <= pclk;
 		pclk_d2  <= pclk_d1;
+		pdata_d1 <= pdata;
+		href_fall_det_d1 <= href_fall_det;
 	  end if;
 	end if;
   end process;
@@ -84,41 +97,42 @@ begin
 
 
   -- Pixel data latch logic
-  pixel_data_catch <= (not VSYNC) and HREF and pclk_fall_det;
+  pixel_data_catch <= ((not VSYNC_d1) and HREF_d1 and pclk_fall_det) or href_fall_det;
 
   PIXEL_DATA_CATCH_LOGIC : process( clk ) is
   begin
     if clk'event and clk = '1' then
 	  if reset = '1' then
-	    pixel_data      <= (others => '0');
-		pixel_data_r    <= (others => '0');
-		pixel_data_g    <= (others => '0');
-		pixel_data_b    <= (others => '0');
+		pixel_data_r    <= (others => '1');
+		pixel_data_g    <= (others => '1');
+		pixel_data_b    <= (others => '1');
 		latch_x2_en     <= '0';
---		pixel_data_en   <= '0';
+	  elsif href_fall_det_d1 = '1' then
+		pixel_data_r    <= (others => '1');
+		pixel_data_g    <= (others => '1');
+		pixel_data_b    <= (others => '1');
+		latch_x2_en     <= '0';
 	  elsif pixel_data_catch = '1' then
 	    -- Latch pixel data 8bits
-	    pixel_data <= pdata;
 		latch_x2_en <= latch_x2_en xor '1';
 
 		if  latch_x2_en = '0' then
-		  pixel_data_r(0 to 4) <= pdata(0 to 4);
-		  pixel_data_g(0 to 2) <= pdata(5 to 7);
---		  pixel_data_en        <= '0';
+		  pixel_data_r(0 to 4) <= pdata_d1(0 to 4);
+		  pixel_data_g(0 to 2) <= pdata_d1(5 to 7);
 		else
-		  pixel_data_g(3 to 5) <= pdata(0 to 2);
-		  pixel_data_b(0 to 4) <= pdata(3 to 7);
---		  pixel_data_en        <= '1';
+		  pixel_data_g(3 to 5) <= pdata_d1(0 to 2);
+		  pixel_data_b(0 to 4) <= pdata_d1(3 to 7);
 		end if;
 		
 	  end if;
 	end if;
   end process;
 
-  pixel_data_en  <= pixel_data_catch and (not latch_x2_en);
+  pixel_data_en_wire <= ((pixel_data_catch and (not latch_x2_en)) or href_fall_det) and HREF_d2;
+  pixel_data_en      <= pixel_data_en_wire;
 
-  pixel_data_cnt_en  <= pixel_data_catch and latch_x2_en;
-  pixel_data_cnt_clr <= (not HREF) and (not HREF_d1);
+  pixel_data_cnt_en  <= pixel_data_en_wire;
+  pixel_data_cnt_clr <= pixel_line_cnt_en;
 
   PIXEL_DATA_COUNTER : process( clk ) is
     variable cnt : integer;
@@ -138,7 +152,7 @@ begin
   end process;
 
 
-  pixel_line_cnt_en  <= href_fall_det;
+  pixel_line_cnt_en  <= href_fall_det_d1;
   pixel_line_cnt_clr <= vsync_fall_det;
 
   PIXEL_LINE_COUNTER : process( clk ) is
@@ -159,9 +173,8 @@ begin
   end process;
 
 
-  line_addr <= "0000000000000" & pixel_line_cnt & "0000000000";
+  line_addr <= "00000000000" & pixel_line_cnt & "000000000000";
   data_addr <= "00000000000000000000" & pixel_data_cnt & "00";
---pixel_data_addr <= base_addr + line_addr + data_addr;
 
   PIXEL_ADDR_GEN : process( base_addr, line_addr, data_addr ) is
     variable laddr, daddr, baddr : integer;

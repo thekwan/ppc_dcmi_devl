@@ -15,15 +15,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="15" />
-   <wvobject fp_name="/frame_gen_tb/dut_det/clk" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/frame_gen_tb/dut_det/reset" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
-   </wvobject>
+   <WVObjectSize size="41" />
    <wvobject fp_name="/frame_gen_tb/dut_det/pclk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">pclk</obj_property>
       <obj_property name="ObjectShortName">pclk</obj_property>
@@ -31,7 +23,7 @@
    <wvobject fp_name="/frame_gen_tb/dut_det/pdata" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">pdata[0:7]</obj_property>
       <obj_property name="ObjectShortName">pdata[0:7]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/frame_gen_tb/dut_det/vsync" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">vsync</obj_property>
@@ -40,20 +32,157 @@
    <wvobject fp_name="/frame_gen_tb/dut_det/href" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">href</obj_property>
       <obj_property name="ObjectShortName">href</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#00ff00</obj_property>
    </wvobject>
-   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">pixel_data[0:7]</obj_property>
-      <obj_property name="ObjectShortName">pixel_data[0:7]</obj_property>
+   <wvobject fp_name="divider34" type="divider">
+      <obj_property name="label">New Divider</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider40" type="divider">
+      <obj_property name="label">New Divider</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/vsync_d1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_d1</obj_property>
+      <obj_property name="ObjectShortName">vsync_d1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/href_d1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href_d1</obj_property>
+      <obj_property name="ObjectShortName">href_d1</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#ff00ff</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pdata_d1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pdata_d1[0:7]</obj_property>
+      <obj_property name="ObjectShortName">pdata_d1[0:7]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#00ffff</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider39" type="divider">
+      <obj_property name="label">New Divider</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/base_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">base_addr[0:31]</obj_property>
+      <obj_property name="ObjectShortName">base_addr[0:31]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_r" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_r[0:4]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_r[0:4]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_g" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_g[0:5]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_g[0:5]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_b" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_b[0:4]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_b[0:4]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_catch" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_catch</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_catch</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#ff0000</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_en</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_en</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#ff0000</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider41" type="divider">
+      <obj_property name="label">New Divider</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_addr[0:31]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_addr[0:31]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/line_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">line_addr[0:31]</obj_property>
+      <obj_property name="ObjectShortName">line_addr[0:31]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/data_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_addr[0:31]</obj_property>
+      <obj_property name="ObjectShortName">data_addr[0:31]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_line_cnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_line_cnt[0:8]</obj_property>
+      <obj_property name="ObjectShortName">pixel_line_cnt[0:8]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#00ffff</obj_property>
    </wvobject>
    <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_cnt" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">pixel_data_cnt[0:9]</obj_property>
       <obj_property name="ObjectShortName">pixel_data_cnt[0:9]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#00ffff</obj_property>
    </wvobject>
-   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_catch" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">pixel_data_catch</obj_property>
-      <obj_property name="ObjectShortName">pixel_data_catch</obj_property>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_line_cnt_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_line_cnt_en</obj_property>
+      <obj_property name="ObjectShortName">pixel_line_cnt_en</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#ff0000</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_cnt_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_cnt_en</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_cnt_en</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#ff0000</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider42" type="divider">
+      <obj_property name="label">New Divider</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/vsync_d2" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_d2</obj_property>
+      <obj_property name="ObjectShortName">vsync_d2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/href_d2" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href_d2</obj_property>
+      <obj_property name="ObjectShortName">href_d2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_line_cnt_clr" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_line_cnt_clr</obj_property>
+      <obj_property name="ObjectShortName">pixel_line_cnt_clr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pixel_data_cnt_clr" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data_cnt_clr</obj_property>
+      <obj_property name="ObjectShortName">pixel_data_cnt_clr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/latch_x2_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">latch_x2_en</obj_property>
+      <obj_property name="ObjectShortName">latch_x2_en</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#00ffff</obj_property>
    </wvobject>
    <wvobject fp_name="/frame_gen_tb/dut_det/pclk_fall_det" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">pclk_fall_det</obj_property>
@@ -71,12 +200,24 @@
       <obj_property name="ElementShortName">pclk_d1</obj_property>
       <obj_property name="ObjectShortName">pclk_d1</obj_property>
    </wvobject>
-   <wvobject fp_name="/frame_gen_tb/dut_det/vsync_d1" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">vsync_d1</obj_property>
-      <obj_property name="ObjectShortName">vsync_d1</obj_property>
+   <wvobject fp_name="/frame_gen_tb/dut_det/pclk_d2" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pclk_d2</obj_property>
+      <obj_property name="ObjectShortName">pclk_d2</obj_property>
    </wvobject>
-   <wvobject fp_name="/frame_gen_tb/dut_det/href_d1" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">href_d1</obj_property>
-      <obj_property name="ObjectShortName">href_d1</obj_property>
+   <wvobject fp_name="/frame_gen_tb/dut_det/vsync_sm_state" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">vsync_sm_state</obj_property>
+      <obj_property name="ObjectShortName">vsync_sm_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/memory_line_size" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">memory_line_size</obj_property>
+      <obj_property name="ObjectShortName">memory_line_size</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/memory_lines" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">memory_lines</obj_property>
+      <obj_property name="ObjectShortName">memory_lines</obj_property>
+   </wvobject>
+   <wvobject fp_name="/frame_gen_tb/dut_det/href_fall_det_d1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">href_fall_det_d1</obj_property>
+      <obj_property name="ObjectShortName">href_fall_det_d1</obj_property>
    </wvobject>
 </wave_config>
