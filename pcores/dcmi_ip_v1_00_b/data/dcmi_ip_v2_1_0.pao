@@ -8,5 +8,6 @@ lib proc_common_v3_00_a  all
 lib plbv46_slave_single_v1_01_a  all 
 lib plbv46_master_burst_v1_01_a  all 
 lib dcmi_ip_v1_00_b frame_det vhdl
+lib dcmi_ip_v1_00_b frame_gen vhdl
 lib dcmi_ip_v1_00_b user_logic vhdl
 lib dcmi_ip_v1_00_b dcmi_ip vhdl
