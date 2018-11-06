@@ -264,6 +264,24 @@ begin
 	pdata     => PixelData_pin
   );
  
+  process
+  begin
+    FrameGen_clk <= '0';
+    loop
+      wait for (FrameGen_clk_PERIOD/2);
+      FrameGen_clk <= not FrameGen_clk;
+    end loop;
+  end process;
+
+  process
+  begin
+    FrameGen_clkx2 <= '0';
+    loop
+      wait for (FrameGen_clkx2_PERIOD/2);
+      FrameGen_clkx2 <= not FrameGen_clkx2;
+    end loop;
+  end process;
+
   -- User: Put your stimulus here. Code in this
   --       section will not be overwritten.
 
