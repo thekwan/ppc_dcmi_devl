@@ -13,7 +13,6 @@ entity frame_det is
     pdata               : in  std_logic_vector(0 to 7);
     VSYNC               : in  std_logic;
     HREF                : in  std_logic;
-    base_addr           : in  std_logic_vector(0 to 31);
     pixel_data_r        : out std_logic_vector(0 to 4);
     pixel_data_g        : out std_logic_vector(0 to 5);
     pixel_data_b        : out std_logic_vector(0 to 4);
@@ -176,13 +175,12 @@ begin
   line_addr <= "00000000000" & pixel_line_cnt & "000000000000";
   data_addr <= "00000000000000000000" & pixel_data_cnt & "00";
 
-  PIXEL_ADDR_GEN : process( base_addr, line_addr, data_addr ) is
+  PIXEL_ADDR_GEN : process( line_addr, data_addr ) is
     variable laddr, daddr, baddr : integer;
   begin
     laddr := to_integer(unsigned(line_addr));
     daddr := to_integer(unsigned(data_addr));
-    baddr := to_integer(unsigned(base_addr));
-    baddr := baddr + daddr + laddr;
+    baddr := daddr + laddr;
 	pixel_data_addr <= std_logic_vector(to_unsigned(baddr, 32));
   end process;
 

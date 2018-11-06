@@ -212,6 +212,10 @@ entity dcmi_ip is
   (
     -- ADD USER PORTS BELOW THIS LINE ------------------
     --USER ports added here
+	PixelData                      : in  std_logic_vector(0 to 7);
+	PixelClk                       : in  std_logic;
+	VSYNC                          : in  std_logic;
+	HREF                           : in  std_logic;
     -- ADD USER PORTS ABOVE THIS LINE ------------------
 
     -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -650,6 +654,10 @@ begin
     (
       -- MAP USER PORTS BELOW THIS LINE ------------------
       --USER ports mapped here
+	  PixelData                      => PixelData,
+	  PixelClk                       => PixelClk,
+	  VSYNC                          => VSYNC,
+	  HREF                           => HREF,
       -- MAP USER PORTS ABOVE THIS LINE ------------------
 
       Bus2IP_Clk                     => ipif_Bus2IP_Clk,

@@ -35,7 +35,10 @@
  PORT fpga_0_DDR2_SDRAM_DDR2_CK_N_pin = fpga_0_DDR2_SDRAM_DDR2_CK_N_pin, DIR = O, VEC = [1:0]
  PORT fpga_0_clk_1_sys_clk_pin = CLK_S, DIR = I, SIGIS = CLK, CLK_FREQ = 100000000
  PORT fpga_0_rst_1_sys_rst_pin = sys_rst_s, DIR = I, SIGIS = RST, RST_POLARITY = 0
-
+ PORT VSYNC_pin = VSYNC, DIR = I 
+ PORT HREF_pin = HREF, DIR = I 
+ PORT PixelClk_pin = PixelClk, DIR = I 
+ PORT PixelData_pin= PixelData, DIR = I, VEC = [0:7]
 
 BEGIN ppc440_virtex5
  PARAMETER INSTANCE = ppc440_0
@@ -231,5 +234,9 @@ BEGIN dcmi_ip
  PARAMETER C_HIGHADDR = 0x8F0007FF
  BUS_INTERFACE MPLB = plb_v46_0
  BUS_INTERFACE SPLB = plb_v46_0
+ PORT VSYNC = VSYNC
+ PORT HREF = HREF
+ PORT PixelClk = PixelClk
+ PORT PixelData = PixelData
 END
 

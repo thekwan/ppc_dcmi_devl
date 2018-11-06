@@ -53,6 +53,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
+--use ieee.numeric_std.all;
 
 library proc_common_v3_00_a;
 use proc_common_v3_00_a.proc_common_pkg.all;
@@ -135,6 +136,10 @@ entity user_logic is
   (
     -- ADD USER PORTS BELOW THIS LINE ------------------
     --USER ports added here
+	PixelData                      : in  std_logic_vector(0 to 7);
+	PixelClk                       : in  std_logic;
+	VSYNC                          : in  std_logic;
+	HREF                           : in  std_logic;
     -- ADD USER PORTS ABOVE THIS LINE ------------------
 
     -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -177,10 +182,8 @@ entity user_logic is
     IP2Bus_MstWr_src_rdy_n         : out std_logic;
     IP2Bus_MstWr_src_dsc_n         : out std_logic;
     Bus2IP_MstWr_dst_rdy_n         : in  std_logic;
-    Bus2IP_MstWr_dst_dsc_n         : in  std_logic;
+    Bus2IP_MstWr_dst_dsc_n         : in  std_logic
     -- DO NOT EDIT ABOVE THIS LINE ---------------------
-	VSYNC                          : in  std_logic;
-	HREF                           : in  std_logic
   );
 
   attribute MAX_FANOUT : string;
@@ -235,7 +238,7 @@ architecture IMP of user_logic is
   signal mst_ip2bus_addr                : std_logic_vector(0 to C_MST_AWIDTH-1);
   signal mst_xfer_length                : std_logic_vector(0 to 11);
   signal mst_ip2bus_be                  : std_logic_vector(0 to 15);
-  signal mst_go                         : std_logic;
+  Signal mst_go                         : std_logic;
   -- signals for master model command interface state machine
   type CMD_CNTL_SM_TYPE is (CMD_IDLE, CMD_RUN, CMD_WAIT_FOR_DATA, CMD_DONE);
   signal mst_cmd_sm_state               : CMD_CNTL_SM_TYPE;
@@ -269,16 +272,21 @@ architecture IMP of user_logic is
   signal mst_fifo_valid_read_xfer       : std_logic;
 
   -- frame detector signal
-  signal pclk                           : std_logic;
-  signal pdata                          : std_logic;
-  signal VSYNC                          : std_logic;
-  signal HREF                           : std_logic;
+--signal pclk                           : std_logic;
+--signal pdata                          : std_logic;
+--signal VSYNC                          : std_logic;
+--signal HREF                           : std_logic;
+  signal dcmi_pixel_data_fin            : std_logic_vector(0 to 15);
+  signal dcmi_pixel_data_fout           : std_logic_vector(0 to 15);
+  signal dcmi_pixel_data_en             : std_logic;
+  signal dcmi_pixel_addr_fin            : std_logic_vector(0 to 31);
+  signal dcmi_pixel_addr_fout           : std_logic_vector(0 to 31);
+  signal dcmi_pixel_addr_en             : std_logic;
+  signal dcmi_pixel_addr_en_cnt         : std_logic_vector(0 to 3);
+  signal dcmi_pixel_data_r              : std_logic_vector(0 to 4);
+  signal dcmi_pixel_data_g              : std_logic_vector(0 to 5);
+  signal dcmi_pixel_data_b              : std_logic_vector(0 to 4);
   signal base_addr                      : std_logic_vector(0 to 31);
-  signal pixel_data_r                   : std_logic_vector(0 to 4);
-  signal pixel_data_g                   : std_logic_vector(0 to 5);
-  signal pixel_data_b                   : std_logic_vector(0 to 4);
-  signal pixel_data_addr                : std_logic_vector(0 to 31);
-  signal pixel_data_en                  : std_logic;
 	
 begin
 
@@ -868,24 +876,52 @@ begin
   mst_fifo_valid_write_xfer <= not(Bus2IP_MstRd_src_rdy_n) and mst_llrd_sm_dst_rdy;
   mst_fifo_valid_read_xfer  <= not(Bus2IP_MstWr_dst_rdy_n) and mst_llwr_sm_src_rdy;
 
+  dcmi_pixel_data_fin <= dcmi_pixel_data_r & dcmi_pixel_data_g & dcmi_pixel_data_b;
+  IP2Bus_MstWr_d      <= "00000000" & dcmi_pixel_data_fout(0 to 4) & "0"
+                       & "00" & dcmi_pixel_data_fout(5 to 10)
+					   & "00" & dcmi_pixel_data_fout(11 to 15) & "0"
+					   & "00";
+  mst_ip2bus_addr <= dcmi_pixel_addr_fout;
+
   DATA_CAPTURE_FIFO_I : entity proc_common_v3_00_a.srl_fifo_f
     generic map
     (
-      C_DWIDTH   => C_MST_DWIDTH,
-      C_DEPTH    => 128
+      C_DWIDTH   => 16,
+      C_DEPTH    => 48
     )
     port map
     (
       Clk        => Bus2IP_Clk,
       Reset      => Bus2IP_Reset,
-      FIFO_Write => mst_fifo_valid_write_xfer,
-      Data_In    => Bus2IP_MstRd_d,
+    --FIFO_Write => mst_fifo_valid_write_xfer,
+      FIFO_Write => dcmi_pixel_data_en,
+      Data_In    => dcmi_pixel_data_fin,
       FIFO_Read  => mst_fifo_valid_read_xfer,
-      Data_Out   => IP2Bus_MstWr_d,
+      Data_Out   => dcmi_pixel_data_fout,
       FIFO_Full  => open,
       FIFO_Empty => open,
       Addr       => open
     );
+
+  ADDR_CAPTURE_FIFO_I : entity proc_common_v3_00_a.srl_fifo_f
+    generic map
+    (
+      C_DWIDTH   => 32,
+      C_DEPTH    => 3
+    )
+    port map
+    (
+      Clk        => Bus2IP_Clk,
+      Reset      => Bus2IP_Reset,
+      FIFO_Write => dcmi_pixel_addr_en,
+      Data_In    => dcmi_pixel_addr_fin,
+      FIFO_Read  => mst_fifo_valid_read_xfer,
+      Data_Out   => dcmi_pixel_addr_fout,
+      FIFO_Full  => open,
+      FIFO_Empty => open,
+      Addr       => open
+    );
+
 
   ------------------------------------------
   -- Example code to drive IP to Bus signals
@@ -902,22 +938,37 @@ begin
   ------------------------------------------
   -- Digital Camera Frame Detector
   ------------------------------------------
+  dcmi_pixel_addr_en <= '0' when dcmi_pixel_addr_en_cnt = "0000" else
+                        '1';
+
+  ADDR_CAPTURE_EN_CNT : process( Bus2IP_Clk ) is 
+    variable cnt : integer;
+  begin
+    if Bus2IP_Clk'event  and Bus2IP_Clk = '1' then
+      if ( Bus2IP_Reset = '1' ) then
+	    dcmi_pixel_addr_en_cnt <= (others => '0');
+	  elsif dcmi_pixel_data_en = '1' then
+	    cnt := conv_integer(dcmi_pixel_addr_en_cnt);
+        cnt := cnt + 1;
+		dcmi_pixel_addr_en_cnt <= conv_std_logic_vector(cnt, 4);
+	  end if;
+	end if;
+  end process;
 
   FRAME_DETECTOR : entity dcmi_ip_v1_00_b.frame_det
     port map
 	(
-      clk               => clk             ,
-      reset             => reset           ,
-      pclk              => pclk            ,
-      pdata             => pdata           ,
+      clk               => Bus2IP_Clk      ,
+      reset             => Bus2IP_Reset    ,
+      pclk              => PixelClk        ,
+      pdata             => PixelData       ,
       VSYNC             => VSYNC           ,
       HREF              => HREF            ,
-      base_addr         => base_addr       ,
-      pixel_data_r      => pixel_data_r    ,
-      pixel_data_g      => pixel_data_g    ,
-      pixel_data_b      => pixel_data_b    ,
-      pixel_data_addr   => pixel_data_addr ,
-      pixel_data_en     => pixel_data_en
+      pixel_data_r      => dcmi_pixel_data_r,
+      pixel_data_g      => dcmi_pixel_data_g,
+      pixel_data_b      => dcmi_pixel_data_b,
+      pixel_data_addr   => dcmi_pixel_addr_fin,
+      pixel_data_en     => dcmi_pixel_data_en
 	);
 
 end IMP;

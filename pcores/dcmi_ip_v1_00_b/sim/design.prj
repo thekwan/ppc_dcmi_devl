@@ -1,3 +1,4 @@
 verilog work "../hdl/vhdl/user_logic.vhd"
+verilog work "../hdl/vhdl/frame_det.vhd"
 verilog work "./testbench.v"
 verilog work "/opt/Xilinx/14.3/ISE_DS/ISE/verilog/src/glbl.v" -i "/opt/Xilinx/14.3/ISE_DS/ISE/verilog/src/"
