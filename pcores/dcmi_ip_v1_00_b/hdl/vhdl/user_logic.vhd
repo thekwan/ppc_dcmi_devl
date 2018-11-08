@@ -282,11 +282,17 @@ architecture IMP of user_logic is
   signal dcmi_pixel_addr_fin            : std_logic_vector(0 to 31);
   signal dcmi_pixel_addr_fout           : std_logic_vector(0 to 31);
   signal dcmi_pixel_addr_en             : std_logic;
+  signal dcmi_pixel_addr_empty          : std_logic;
+  signal dcmi_pixel_addr_full           : std_logic;
+  signal dcmi_pixel_data_empty          : std_logic;
+  signal dcmi_pixel_data_full           : std_logic;
   signal dcmi_pixel_addr_en_cnt         : std_logic_vector(0 to 3);
   signal dcmi_pixel_data_r              : std_logic_vector(0 to 4);
   signal dcmi_pixel_data_g              : std_logic_vector(0 to 5);
   signal dcmi_pixel_data_b              : std_logic_vector(0 to 4);
   signal base_addr                      : std_logic_vector(0 to 31);
+
+  signal data_bunch_size                : integer;
 	
 begin
 
@@ -436,13 +442,18 @@ begin
   mst_read_ack      <= mst_reg_read_req;
 
   -- rip control bits from master model registers
-  mst_cntl_rd_req   <= mst_reg(0)(0);
-  mst_cntl_wr_req   <= mst_reg(0)(1);
+--mst_cntl_rd_req   <= mst_reg(0)(0);
+--mst_cntl_wr_req   <= mst_reg(0)(1);
+  mst_cntl_rd_req   <= '0';
+  mst_cntl_wr_req   <= '1';
   mst_cntl_bus_lock <= mst_reg(0)(2);
   mst_cntl_burst    <= mst_reg(0)(3);
-  mst_ip2bus_addr   <= mst_reg(4) & mst_reg(5) & mst_reg(6) & mst_reg(7);
+--mst_ip2bus_addr   <= mst_reg(4) & mst_reg(5) & mst_reg(6) & mst_reg(7);
+  base_addr         <= mst_reg(4) & mst_reg(5) & mst_reg(6) & mst_reg(7);
   mst_ip2bus_be     <= mst_reg(8) & mst_reg(9);
-  mst_xfer_length   <= mst_reg(12)(4 to 7) & mst_reg(13);
+--mst_xfer_length   <= mst_reg(12)(4 to 7) & mst_reg(13);
+  data_bunch_size   <= 16;
+  mst_xfer_length   <= conv_std_logic_vector(data_bunch_size, 12);
 
   -- implement byte write enable for each byte slice of the master model registers
   MASTER_REG_BYTE_WR_EN : process( Bus2IP_BE, mst_reg_write_req, mst_reg_write_sel ) is
@@ -511,10 +522,12 @@ begin
     if ( Bus2IP_Clk'event and Bus2IP_Clk = '1' ) then
       if ( Bus2IP_Reset = '1' or mst_cmd_sm_clr_go = '1' ) then
         mst_go   <= '0';
-      elsif ( mst_cmd_sm_busy = '0' and mst_byte_we(GO_BYTE_LANE) = '1' and
-              Bus2IP_Data((GO_BYTE_LANE-(GO_BYTE_LANE/BE_WIDTH)*BE_WIDTH)*8 to
-                          (GO_BYTE_LANE-(GO_BYTE_LANE/BE_WIDTH)*BE_WIDTH)*8+7) = GO_DATA_KEY ) then
-        mst_go   <= '1';
+--    elsif ( mst_cmd_sm_busy = '0' and mst_byte_we(GO_BYTE_LANE) = '1' and
+--            Bus2IP_Data((GO_BYTE_LANE-(GO_BYTE_LANE/BE_WIDTH)*BE_WIDTH)*8 to
+--                        (GO_BYTE_LANE-(GO_BYTE_LANE/BE_WIDTH)*BE_WIDTH)*8+7) = GO_DATA_KEY ) then
+--      mst_go   <= '1';
+      elsif ( mst_cmd_sm_busy = '0' and dcmi_pixel_addr_empty = '0' ) then
+	    mst_go   <= '1';
       else
         null;
       end if;
@@ -881,7 +894,8 @@ begin
                        & "00" & dcmi_pixel_data_fout(5 to 10)
 					   & "00" & dcmi_pixel_data_fout(11 to 15) & "0"
 					   & "00";
-  mst_ip2bus_addr <= dcmi_pixel_addr_fout;
+  mst_ip2bus_addr <= conv_std_logic_vector(
+		  conv_integer(dcmi_pixel_addr_fout) + conv_integer(base_addr), 32);
 
   DATA_CAPTURE_FIFO_I : entity proc_common_v3_00_a.srl_fifo_f
     generic map
@@ -898,8 +912,8 @@ begin
       Data_In    => dcmi_pixel_data_fin,
       FIFO_Read  => mst_fifo_valid_read_xfer,
       Data_Out   => dcmi_pixel_data_fout,
-      FIFO_Full  => open,
-      FIFO_Empty => open,
+      FIFO_Full  => dcmi_pixel_data_full,
+      FIFO_Empty => dcmi_pixel_data_empty,
       Addr       => open
     );
 
@@ -917,8 +931,8 @@ begin
       Data_In    => dcmi_pixel_addr_fin,
       FIFO_Read  => mst_fifo_valid_read_xfer,
       Data_Out   => dcmi_pixel_addr_fout,
-      FIFO_Full  => open,
-      FIFO_Empty => open,
+      FIFO_Full  => dcmi_pixel_addr_full,
+      FIFO_Empty => dcmi_pixel_addr_empty,
       Addr       => open
     );
 
@@ -938,8 +952,10 @@ begin
   ------------------------------------------
   -- Digital Camera Frame Detector
   ------------------------------------------
-  dcmi_pixel_addr_en <= '0' when dcmi_pixel_addr_en_cnt = "0000" else
-                        '1';
+  dcmi_pixel_addr_en <= '1' when dcmi_pixel_addr_en_cnt = "0000" 
+                                 and dcmi_pixel_data_en = '1' 
+							else
+                        '0';
 
   ADDR_CAPTURE_EN_CNT : process( Bus2IP_Clk ) is 
     variable cnt : integer;

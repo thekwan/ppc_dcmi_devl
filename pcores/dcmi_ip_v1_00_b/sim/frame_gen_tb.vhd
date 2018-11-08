@@ -31,7 +31,6 @@ architecture IMP of frame_gen_tb is
       pdata   : in  std_logic_vector(0 to 7);
       VSYNC   : in  std_logic;
       HREF    : in  std_logic;
-      base_addr        : in  std_logic_vector(0 to 31);
       pixel_data_r     : out std_logic_vector(0 to 4);
       pixel_data_g     : out std_logic_vector(0 to 5);
       pixel_data_b     : out std_logic_vector(0 to 4);
@@ -41,9 +40,9 @@ architecture IMP of frame_gen_tb is
   end component;
 
 
-  constant clk_pin_PERIOD    : time := 10000.00000 ps;
-  constant clkx2_pin_PERIOD  : time :=  5000.00000 ps;
-  constant clkxd_pin_PERIOD  : time :=  1300.00000 ps;
+  constant clk_pin_PERIOD    : time := 80000.00000 ps;
+  constant clkx2_pin_PERIOD  : time := 40000.00000 ps;
+  constant clkxd_pin_PERIOD  : time := 10000.00000 ps;
   constant reset_pin_LENGTH  : time := 205000 ps;
 
   signal clk     : std_logic;
@@ -55,7 +54,6 @@ architecture IMP of frame_gen_tb is
   signal VSYNC   : std_logic;
   signal HREF    : std_logic;
 
-  signal base_addr       : std_logic_vector(0 to 31);
   signal pixel_data_r    : std_logic_vector(0 to 4);
   signal pixel_data_g    : std_logic_vector(0 to 5);
   signal pixel_data_b    : std_logic_vector(0 to 4);
@@ -75,7 +73,6 @@ begin
 	HREF   =>  HREF  
   );
 
-  base_addr <= X"00FF0140";
 
   dut_det : frame_det
   port map (
@@ -85,7 +82,6 @@ begin
     pdata  =>  pdata,
 	VSYNC  =>  VSYNC,
 	HREF   =>  HREF,
-	base_addr    => base_addr,
 	pixel_data_r => pixel_data_r,
 	pixel_data_g => pixel_data_g,
 	pixel_data_b => pixel_data_b,

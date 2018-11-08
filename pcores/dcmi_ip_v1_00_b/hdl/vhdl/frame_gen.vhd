@@ -34,12 +34,14 @@ architecture IMP of frame_gen is
 
   signal pdata_cnt                       : std_logic_vector(0 to 7);
   
-  constant VSYNC_HIGH_PERIOD : integer := 3;
+--constant VSYNC_HIGH_PERIOD : integer := 3;
+  constant VSYNC_HIGH_PERIOD : integer := 1;
   constant VSYNC_LOW_PERIOD  : integer := 510;
   constant HREF_HIGH_PERIOD  : integer := 640;
   constant HREF_LOW_PERIOD   : integer := 144;
   constant PIXEL_CNT_PERIOD  : integer := HREF_HIGH_PERIOD + HREF_LOW_PERIOD;
-  constant HREF_START_CNT    : integer := 20;
+--constant HREF_START_CNT    : integer := 20;
+  constant HREF_START_CNT    : integer := 2;
   constant HREF_STOP_CNT     : integer := 480+20;
 --constant RESOLUTION_H      : integer := 640;
 --constant RESOLUTION_V      : integer := 480;

@@ -88,6 +88,7 @@ architecture STRUCTURE of system_tb is
 
   signal FrameGen_clk   : std_logic;
   signal FrameGen_clkx2 : std_logic;
+  signal FrameGen_reset : std_logic;
 
   component ddr2 is
     port (
@@ -257,12 +258,14 @@ begin
   port map (
     clk       => FrameGen_clk,
 	clkx2     => FrameGen_clkx2,
-	reset     => fpga_0_rst_1_sys_rst_pin,
+	reset     => FrameGen_reset,
 	pclk      => PixelClk_pin, 
 	VSYNC     => VSYNC_pin,
 	HREF      => HREF_pin,
 	pdata     => PixelData_pin
   );
+
+  FrameGen_reset <= not fpga_0_rst_1_sys_rst_pin;
  
   process
   begin
