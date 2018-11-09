@@ -83,7 +83,7 @@ architecture STRUCTURE of system_tb is
   signal net_gnd2: std_logic_vector(1 downto 0);
   -- User: Put your signals here. Code in this
   --       section will not be overwritten.
-  constant FrameGen_clk_PERIOD   : time := 80000.000000 ps;
+  constant FrameGen_clk_PERIOD   : time := 60000.000000 ps;
   constant FrameGen_clkx2_PERIOD : time := 40000.000000 ps;
 
   signal FrameGen_clk   : std_logic;

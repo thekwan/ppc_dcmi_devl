@@ -262,7 +262,7 @@ architecture IMP of user_logic is
   signal mst_llrd_sm_state              : RD_LLINK_SM_TYPE;
   signal mst_llrd_sm_dst_rdy            : std_logic;
   -- signals for master model write locallink interface state machine
-  type WR_LLINK_SM_TYPE is (LLWR_IDLE, LLWR_SNGL_INIT, LLWR_SNGL, LLWR_BRST_INIT, LLWR_BRST, LLWR_BRST_LAST_BEAT);
+  type WR_LLINK_SM_TYPE is (LLWR_IDLE, LLWR_SNGL_INIT, LLWR_SNGL, LLWR_BRST_INIT, LLWR_BRST, LLWR_BRST_LAST_BEAT, LLWR_BRST_LAST_END);
   signal mst_llwr_sm_state              : WR_LLINK_SM_TYPE;
   signal mst_llwr_sm_src_rdy            : std_logic;
   signal mst_llwr_sm_sof                : std_logic;
@@ -284,12 +284,15 @@ architecture IMP of user_logic is
   signal dcmi_pixel_addr_en             : std_logic;
   signal dcmi_pixel_addr_empty          : std_logic;
   signal dcmi_pixel_addr_full           : std_logic;
+  signal dcmi_pixel_addr_Addr           : std_logic_vector(0 to 1);
+  signal dcmi_pixel_data_Addr           : std_logic_vector(0 to 5);
   signal dcmi_pixel_data_empty          : std_logic;
   signal dcmi_pixel_data_full           : std_logic;
   signal dcmi_pixel_addr_en_cnt         : std_logic_vector(0 to 3);
   signal dcmi_pixel_data_r              : std_logic_vector(0 to 4);
   signal dcmi_pixel_data_g              : std_logic_vector(0 to 5);
   signal dcmi_pixel_data_b              : std_logic_vector(0 to 4);
+  signal dcmi_pixel_addr_read_en        : std_logic;
   signal base_addr                      : std_logic_vector(0 to 31);
 
   signal data_bunch_size                : integer;
@@ -452,7 +455,7 @@ begin
   base_addr         <= mst_reg(4) & mst_reg(5) & mst_reg(6) & mst_reg(7);
   mst_ip2bus_be     <= mst_reg(8) & mst_reg(9);
 --mst_xfer_length   <= mst_reg(12)(4 to 7) & mst_reg(13);
-  data_bunch_size   <= 16;
+  data_bunch_size   <= 64;
   mst_xfer_length   <= conv_std_logic_vector(data_bunch_size, 12);
 
   -- implement byte write enable for each byte slice of the master model registers
@@ -526,7 +529,7 @@ begin
 --            Bus2IP_Data((GO_BYTE_LANE-(GO_BYTE_LANE/BE_WIDTH)*BE_WIDTH)*8 to
 --                        (GO_BYTE_LANE-(GO_BYTE_LANE/BE_WIDTH)*BE_WIDTH)*8+7) = GO_DATA_KEY ) then
 --      mst_go   <= '1';
-      elsif ( mst_cmd_sm_busy = '0' and dcmi_pixel_addr_empty = '0' ) then
+      elsif ( mst_cmd_sm_busy = '0' and conv_integer(dcmi_pixel_addr_Addr) > 1 and dcmi_pixel_addr_empty = '0' ) then
 	    mst_go   <= '1';
       else
         null;
@@ -772,6 +775,7 @@ begin
         mst_llwr_sm_sof     <= '0';
         mst_llwr_sm_eof     <= '0';
         mst_llwr_byte_cnt   <= 0;
+        dcmi_pixel_addr_read_en <= '0';
 
       else
 
@@ -793,6 +797,7 @@ begin
             else
               mst_llwr_sm_state <= LLWR_IDLE;
             end if;
+            dcmi_pixel_addr_read_en <= '0';
 
           when LLWR_SNGL_INIT =>
             mst_llwr_sm_state   <= LLWR_SNGL;
@@ -860,11 +865,13 @@ begin
             -- destination discontinue write
             if ( Bus2IP_MstWr_dst_dsc_n = '0' and
                  Bus2IP_MstWr_dst_rdy_n = '0' ) then
-              mst_llwr_sm_state   <= LLWR_IDLE;
+            --mst_llwr_sm_state   <= LLWR_IDLE;
+              mst_llwr_sm_state   <= LLWR_BRST_LAST_END;
               mst_llwr_sm_src_rdy <= '0';
             -- last data beat done
             elsif ( mst_fifo_valid_read_xfer = '1' ) then
-              mst_llwr_sm_state   <= LLWR_IDLE;
+            --mst_llwr_sm_state   <= LLWR_IDLE;
+              mst_llwr_sm_state   <= LLWR_BRST_LAST_END;
               mst_llwr_sm_src_rdy <= '0';
             -- wait on destination
             else
@@ -872,6 +879,10 @@ begin
               mst_llwr_sm_src_rdy <= '1';
               mst_llwr_sm_eof     <= '1';
             end if;
+
+          when LLWR_BRST_LAST_END =>
+            mst_llwr_sm_state <= LLWR_IDLE;
+            dcmi_pixel_addr_read_en <= '1';
 
           when others =>
             mst_llwr_sm_state <= LLWR_IDLE;
@@ -914,14 +925,14 @@ begin
       Data_Out   => dcmi_pixel_data_fout,
       FIFO_Full  => dcmi_pixel_data_full,
       FIFO_Empty => dcmi_pixel_data_empty,
-      Addr       => open
+      Addr       => dcmi_pixel_data_Addr
     );
 
   ADDR_CAPTURE_FIFO_I : entity proc_common_v3_00_a.srl_fifo_f
     generic map
     (
       C_DWIDTH   => 32,
-      C_DEPTH    => 3
+      C_DEPTH    => 4
     )
     port map
     (
@@ -929,11 +940,11 @@ begin
       Reset      => Bus2IP_Reset,
       FIFO_Write => dcmi_pixel_addr_en,
       Data_In    => dcmi_pixel_addr_fin,
-      FIFO_Read  => mst_fifo_valid_read_xfer,
+      FIFO_Read  => dcmi_pixel_addr_read_en,
       Data_Out   => dcmi_pixel_addr_fout,
       FIFO_Full  => dcmi_pixel_addr_full,
       FIFO_Empty => dcmi_pixel_addr_empty,
-      Addr       => open
+      Addr       => dcmi_pixel_addr_Addr
     );
 
 
