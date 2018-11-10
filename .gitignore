@@ -3,3 +3,5 @@
 *.swp
 *.exe
 *.xmsg
+*.mem
+simulation/behavioral/*

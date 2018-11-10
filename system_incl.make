@@ -38,7 +38,7 @@ PPC440_BOOTLOOP = $(XILINX_EDK_DIR)/sw/lib/ppc440/ppc440_bootloop.elf
 BOOTLOOP_DIR = bootloops
 
 #PPC440_0_BOOTLOOP = $(BOOTLOOP_DIR)/ppc440_0.elf
-PPC440_0_BOOTLOOP = SDK/SDK_Export/master_burst_example/Debug/master_burst_example.elf
+PPC440_0_BOOTLOOP = SDK/SDK_Export/dcmi_ctrl_example/Debug/dcmi_ctrl_example.elf
 
 BRAMINIT_ELF_IMP_FILES = $(PPC440_0_BOOTLOOP)
 BRAMINIT_ELF_IMP_FILE_ARGS = -pe ppc440_0 $(PPC440_0_BOOTLOOP)

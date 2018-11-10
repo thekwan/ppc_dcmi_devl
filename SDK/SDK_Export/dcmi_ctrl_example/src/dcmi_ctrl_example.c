@@ -33,12 +33,12 @@ void dcmi_ip_set_write_burst_mode( void ) {
 */
 void dcmi_ip_oper_enable( void ) {
 	WAIT_FOR_DONE;
-	XIo_Out8(XPAR_DCMI_IP_CTRL_REG,  0x40);
+	XIo_Out8(XPAR_DCMI_IP_CTRL_REG,  0x50);
 }
 
 void dcmi_ip_oper_disable( void ) {
 	WAIT_FOR_DONE;
-	XIo_Out8(XPAR_DCMI_IP_CTRL_REG,  0x00);
+	XIo_Out8(XPAR_DCMI_IP_CTRL_REG,  0x10);
 }
 
 /**************************************

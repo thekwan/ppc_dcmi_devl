@@ -26,4 +26,4 @@ ShowLicenseDialog: 1
 BInfo: 
 Processor: ppc440_0
 ElfImp: 
-ElfSim: SDK/SDK_Export/master_burst_example/Debug/master_burst_example.elf
+ElfSim: SDK/SDK_Export/dcmi_ctrl_example/Debug/dcmi_ctrl_example.elf

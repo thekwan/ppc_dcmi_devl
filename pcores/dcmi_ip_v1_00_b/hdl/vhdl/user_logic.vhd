@@ -271,6 +271,7 @@ architecture IMP of user_logic is
   signal mst_fifo_valid_write_xfer      : std_logic;
   signal mst_fifo_valid_read_xfer       : std_logic;
 
+  signal mst_cntl_oper_en               : std_logic;
   -- frame detector signal
 --signal pclk                           : std_logic;
 --signal pdata                          : std_logic;
@@ -447,6 +448,7 @@ begin
   -- rip control bits from master model registers
 --mst_cntl_rd_req   <= mst_reg(0)(0);
 --mst_cntl_wr_req   <= mst_reg(0)(1);
+  mst_cntl_oper_en  <= mst_reg(0)(1);
   mst_cntl_rd_req   <= '0';
   mst_cntl_wr_req   <= '1';
   mst_cntl_bus_lock <= mst_reg(0)(2);
@@ -529,7 +531,8 @@ begin
 --            Bus2IP_Data((GO_BYTE_LANE-(GO_BYTE_LANE/BE_WIDTH)*BE_WIDTH)*8 to
 --                        (GO_BYTE_LANE-(GO_BYTE_LANE/BE_WIDTH)*BE_WIDTH)*8+7) = GO_DATA_KEY ) then
 --      mst_go   <= '1';
-      elsif ( mst_cmd_sm_busy = '0' and conv_integer(dcmi_pixel_addr_Addr) > 1 and dcmi_pixel_addr_empty = '0' ) then
+      elsif ( mst_cmd_sm_busy = '0' and conv_integer(dcmi_pixel_addr_Addr) > 1 
+	      and dcmi_pixel_addr_empty = '0' and mst_cntl_oper_en = '1') then
 	    mst_go   <= '1';
       else
         null;
